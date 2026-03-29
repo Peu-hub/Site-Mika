@@ -11,11 +11,17 @@
 </head>
 <body>
 
-<!-- MENU -->
+<!-- LOGO -->
 <header>
-  <div class="logo">MINHA LOJA</div>
-  <div class="menu-btn" id="menuBtn">☰</div>
+  <div class="logo">CALLBLACK</div>
 </header>
+
+<!-- BOTÃO MENU -->
+<button class="menu-btn" id="menuBtn">
+  <span></span>
+  <span></span>
+  <span></span>
+</button>
 
 <!-- MENU OVERLAY -->
 <div class="menu-overlay" id="menu">
@@ -25,10 +31,22 @@
   <a href="#">Contato</a>
 </div>
 
-<!-- HERO -->
-<section class="hero">
-  <h1 class="fade-up">Design que vende</h1>
-  <p class="fade-up delay">Sua loja com aparência premium</p>
+<!-- VIDEO HERO -->
+<section class="video-hero">
+  <video id="heroVideo" 
+         src="imagens/video-hero.mp4" 
+         autoplay muted 
+         poster="imagens/frame-inicial.jpg"
+         playsinline>
+  </video>
+  <img id="heroImage" 
+       src="imagens/frame-final.jpg" 
+       alt="Ícone final" 
+       class="hero-image">
+  <div class="hero-content">
+    <h1 class="fade-up">Design que vende</h1>
+    <p class="fade-up delay">Sua loja com aparência premium</p>
+  </div>
 </section>
 
 <!-- PRODUTOS -->
