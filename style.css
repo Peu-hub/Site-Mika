@@ -1,222 +1,758 @@
-body {
+/* ============================================================
+   VARIÁVEIS DE COR — o coração do tema
+   Tudo que muda entre claro e escuro está aqui.
+   Assim, se quiser mudar uma cor, muda em UM lugar só.
+============================================================ */
+
+/* Tema CLARO (padrão) */
+:root {
+  --bg:         #f5f5f0;        /* fundo da página */
+  --bg-card:    #ffffff;        /* fundo dos cards */
+  --text:       #0a0a0a;        /* texto principal */
+  --text-muted: #555555;        /* texto secundário/cinza */
+  --border:     #e0e0e0;        /* bordas */
+  --accent:     #7c3aed;        /* roxo — cor de destaque */
+  --yellow:     #facc15;        /* amarelo — hover e detalhes */
+  --nav-bg:     rgba(245,245,240,0.92);
+  --shadow:     0 4px 24px rgba(0,0,0,0.08);
+}
+
+/* Tema ESCURO — ativado automaticamente pelo sistema do usuário */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg:         #0a0a0a;
+    --bg-card:    #141414;
+    --text:       #f0f0f0;
+    --text-muted: #888888;
+    --border:     #2a2a2a;
+    --accent:     #a855f7;      /* roxo mais claro no escuro */
+    --yellow:     #facc15;
+    --nav-bg:     rgba(10,10,10,0.92);
+    --shadow:     0 4px 24px rgba(0,0,0,0.4);
+  }
+}
+
+/* ============================================================
+   RESET — limpa os estilos padrão do navegador
+============================================================ */
+*, *::before, *::after {
   margin: 0;
-  font-family: 'Inter', sans-serif;
-  background: #0a0a0a;
-  color: #fff;
-  overflow-x: hidden;
+  padding: 0;
+  box-sizing: border-box;
 }
 
-/* HEADER */
-/* Ajuste header para não sobrepor */
-header {
-  position: fixed; /* mude de absolute para fixed */
-  top: 0;
-  left: 30px;
-  width: 100%;
-  display:flexbox;
-    background: #111;
-  justify-content: space-between;
-  padding: 20px;
-  z-index: 1000;
+html {
+  scroll-behavior: smooth; /* rolagem suave ao clicar nos links de navegação */
 }
 
-.logo {
-  font-weight: 700;
+body {
+  font-family: 'Syne', sans-serif;
+  background-color: var(--bg);
+  color: var(--text);
+  overflow-x: hidden; /* impede scroll horizontal acidental */
+  transition: background 0.3s, color 0.3s;
 }
 
-.menu-btn {
-  cursor: pointer;
-  font-size: 24px;
-}
-
-/* MENU BOTÃO */
-.menu-btn {
-  position: fixed;
-  top: 20px;
-  right: 20px;
-  width: 35px;
-  height: 35px;
-  display: flex;
-  flex-direction: column;
-  justify-content:space-evenly;
-  align-items: center;
-  background: #111;
-  border-radius: 5px;
-  cursor: pointer;
-  z-index: 3000;
-  transition: background 0.4s;
-  outline: none;         /* remove a borda branca */
-  border: none;          /* garante que não tenha borda */
-}
-
-.menu-btn span {
+img {
+  max-width: 100%;
   display: block;
-  width: 25px;
-  height: 0.5px;
-  background: white;
-  transition: 0.4s;
+  object-fit: cover;
 }
 
-/* Quando o botão está aberto */
-.menu-btn.open {
-  background: #fff !important; /* muda o fundo para branco */
-}
-.menu-btn.open span {
-  background: black !important;  /* muda as linhas para preto */
+a {
+  color: inherit;
+  text-decoration: none;
 }
 
-/* Estado aberto */
-.menu-btn.open span:nth-child(1) {
-  transform: rotate(45deg) translate(5px, 5px);
-}
+ul { list-style: none; }
 
-.menu-btn.open span:nth-child(2) {
-  opacity: 0; /* some a barrinha do meio */
-}
-
-.menu-btn.open span:nth-child(3) {
-  transform: rotate(-45deg) translate(6px, -6px);
-}
-
-
-
-/* MENU OVERLAY */
-.menu-overlay {
-  position:fixed;
-  width: 100%;
-  height: 100vh;
-  background: #fff;
-  top: -100%;
-  left: 0;
+/* ============================================================
+   TELA DE INTRO
+   Aparece quando o usuário entra no site, antes de tudo.
+============================================================ */
+#intro-screen {
+  position: fixed;
+  inset: 0;                      /* cobre a tela toda */
+  z-index: 9999;
+  background: #0a0a0a;
   display: flex;
   flex-direction: column;
+  align-items: center;
   justify-content: center;
-  align-items: center;
-  transition: 0.5s;
-  z-index: 2000;
+  gap: 1.5rem;
+  transition: opacity 0.8s ease, transform 0.8s ease;
 }
 
-.menu-overlay a {
-  font-size: 2rem;
-  margin: 20px;
-  text-decoration: none;
-  color: black;
-}
-
-/* HERO */
-.video-hero {
-  height: 100vh;
-  position: relative;
-  display: flex;
-  align-items: center;
-  padding-left: 10%;
-  overflow: hidden;
-  transition: all 0.6s ease;
-}
-
-#heroVideo {
-  position: absolute;
-  top: 0;
-  right: -10;
-  width: 100%;
-  height: 100%;
-  object-fit:contain;
-  z-index: 1;
-}
-
-.video-hero.video-ended #heroVideo {
-  display: none; /* vídeo some completamente, sem afetar imagem */
-}
-
-.hero-image {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
+/* Quando o JS adicionar .hidden, a intro some suavemente */
+#intro-screen.hidden {
   opacity: 0;
-  transition: all 0.5s;
-  z-index: 2;
-  pointer-events: none; /* não interfere cliques */
+  pointer-events: none;
+  transform: translateY(-30px);
 }
 
-.video-hero.video-ended .hero-image {
-  position: fixed !important;
-  top: 2px;
-  left: 1px; /* após a logo CALLBLACK (ajuste se necessário) */
-  width: 60px; /* ainda menor */
-  height: 60px;
-  opacity: 1;
-  z-index: 5000; /* altíssimo, acima de tudo */
-}
-
-/* header z-index já é 1000, logo fica atrás */
-.logo {
-  position: relative;
-  z-index: 1001;
-}
-
-.hero-content {
-  position: relative;
-  z-index: 3;
-  color: white;
-  text-shadow: 0 2px 4px rgba(0,0,0,0.5);
-  transition: all 0.6s ease;
-}
-
-.hero-content h1 {
-  font-size: 4rem; /* tamanho inicial */
-}
-
-.video-hero.video-ended .hero-content h1 {
-  font-size: 6rem; /* cresce quando vídeo acaba */
-  transform: scale(1.1);
-}
-
-.video-hero.video-ended .hero-content p {
-  font-size: 1.8rem; /* também cresce um pouco */
-  opacity: 0.9;
-}
-
-/* PRODUTOS */
-.produtos {
+.intro-logo-wrap {
   display: flex;
-  gap: 30px;
-  padding: 100px;
+  gap: 0.1em;
 }
 
-.card {
-  background: #111;
-  padding: 20px;
-  border-radius: 10px;
-  transition: 0.4s;
-}
-
-.card img {
-  width: 100%;
-}
-
-.card:hover {
-  transform: translateY(-10px);
-}
-
-/* ANIMAÇÕES */
-.fade-up {
+/* Cada letra do logo entra com animação separada (stagger) */
+.intro-letter {
+  font-family: 'Syne', sans-serif;
+  font-weight: 800;
+  font-size: clamp(2.5rem, 8vw, 6rem); /* tamanho responsivo */
+  color: #fff;
   opacity: 0;
   transform: translateY(40px);
-  transition: 0.8s ease;
+  animation: letterIn 0.5s forwards;
 }
 
-.fade-up.show {
+/* O nth-child cria o efeito cascata: cada letra aparece 0.05s depois da anterior */
+.intro-letter:nth-child(1)  { animation-delay: 0.0s; }
+.intro-letter:nth-child(2)  { animation-delay: 0.05s; }
+.intro-letter:nth-child(3)  { animation-delay: 0.1s; }
+.intro-letter:nth-child(4)  { animation-delay: 0.15s; }
+.intro-letter:nth-child(5)  { animation-delay: 0.2s; }
+.intro-letter:nth-child(6)  { animation-delay: 0.25s; }
+.intro-letter:nth-child(7)  { animation-delay: 0.3s; }
+.intro-letter:nth-child(8)  { animation-delay: 0.35s; }
+.intro-letter:nth-child(9)  { animation-delay: 0.4s; }
+
+/* Linha amarela que cresce da esquerda para direita */
+.intro-line {
+  width: 0;
+  height: 2px;
+  background: var(--yellow);
+  animation: lineGrow 0.6s 0.6s forwards ease-out;
+}
+
+.intro-tagline {
+  font-size: 1rem;
+  color: #888;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  opacity: 0;
+  animation: fadeIn 0.5s 1.1s forwards;
+}
+
+.intro-enter-btn {
+  margin-top: 1rem;
+  padding: 0.8rem 2.5rem;
+  background: transparent;
+  border: 1px solid var(--yellow);
+  color: var(--yellow);
+  font-family: 'Space Mono', monospace;
+  font-size: 0.85rem;
+  letter-spacing: 0.3em;
+  cursor: pointer;
+  opacity: 0;
+  animation: fadeIn 0.5s 1.4s forwards;
+  transition: background 0.3s, color 0.3s, transform 0.2s;
+}
+
+.intro-enter-btn:hover {
+  background: var(--yellow);
+  color: #000;
+  transform: scale(1.04);
+}
+
+/* ============================================================
+   KEYFRAMES (animações definidas)
+============================================================ */
+@keyframes letterIn {
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes lineGrow {
+  to { width: min(500px, 80vw); }
+}
+@keyframes fadeIn {
+  to { opacity: 1; }
+}
+@keyframes bounce {
+  0%, 100% { transform: translateY(0); }
+  50%       { transform: translateY(10px); }
+}
+
+/* ============================================================
+   REVEAL — animação de entrada ao fazer scroll
+   Elementos começam invisíveis. O JS adiciona .visible
+   quando entram na tela.
+============================================================ */
+.reveal {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+
+.reveal.visible {
   opacity: 1;
   transform: translateY(0);
 }
 
-.delay {
-  transition-delay: 0.2s;
+/* ============================================================
+   NAVBAR
+============================================================ */
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.2rem 5%;
+  background: var(--nav-bg);
+  backdrop-filter: blur(12px); /* efeito fosco/vidro */
+  border-bottom: 1px solid var(--border);
+  transition: background 0.3s;
 }
 
-.delay2 {
-  transition-delay: 0.4s;
+/* Quando rolar a página, o JS adiciona .scrolled para aumentar sombra */
+.navbar.scrolled {
+  box-shadow: var(--shadow);
+}
+
+.nav-logo {
+  font-weight: 800;
+  font-size: 1.3rem;
+  letter-spacing: 0.1em;
+  color: var(--text);
+}
+
+.nav-links {
+  display: flex;
+  gap: 2.5rem;
+}
+
+.nav-links a {
+  font-size: 0.9rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  position: relative;
+  transition: color 0.2s;
+}
+
+/* Linha que aparece embaixo do link ao passar o mouse */
+.nav-links a::after {
+  content: '';
+  position: absolute;
+  bottom: -3px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: var(--accent);
+  transition: width 0.3s;
+}
+
+.nav-links a:hover {
+  color: var(--text);
+}
+.nav-links a:hover::after {
+  width: 100%;
+}
+
+/* Botão hambúrguer — apenas no mobile */
+.hamburger {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+}
+.hamburger span {
+  display: block;
+  width: 24px;
+  height: 2px;
+  background: var(--text);
+  border-radius: 2px;
+  transition: transform 0.3s, opacity 0.3s;
+}
+
+/* Animação do hambúrguer virando X */
+.hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+.hamburger.open span:nth-child(2) { opacity: 0; }
+.hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+/* Menu mobile */
+.mobile-menu {
+  display: none;
+  position: fixed;
+  top: 65px;
+  left: 0;
+  right: 0;
+  background: var(--bg-card);
+  border-bottom: 1px solid var(--border);
+  flex-direction: column;
+  z-index: 999;
+  padding: 1rem 0;
+}
+
+.mobile-menu.open {
+  display: flex;
+}
+
+.mobile-menu a {
+  padding: 1rem 5%;
+  font-size: 1.1rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  border-bottom: 1px solid var(--border);
+  transition: color 0.2s, padding-left 0.2s;
+}
+
+.mobile-menu a:hover {
+  color: var(--accent);
+  padding-left: calc(5% + 10px);
+}
+
+/* ============================================================
+   HERO
+============================================================ */
+.hero {
+  position: relative;
+  height: 100svh; /* 100% da altura visível da tela */
+  min-height: 600px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.hero-video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 0;
+}
+
+/* Camada escura por cima do vídeo */
+.hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to bottom,
+    rgba(0,0,0,0.2) 0%,
+    rgba(0,0,0,0.6) 100%
+  );
+  z-index: 1;
+}
+
+.hero-content {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+  padding: 0 5%;
+}
+
+.hero-eyebrow {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.8rem;
+  letter-spacing: 0.4em;
+  text-transform: uppercase;
+  color: var(--yellow);
+  margin-bottom: 1rem;
+}
+
+.hero-title {
+  font-size: clamp(3rem, 10vw, 8rem);
+  font-weight: 800;
+  line-height: 1;
+  color: #fff;
+  margin-bottom: 2rem;
+}
+
+.hero-title .accent {
+  color: var(--yellow);
+}
+
+.scroll-arrow {
+  position: absolute;
+  bottom: 2rem;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 2;
+  font-size: 1.5rem;
+  color: #fff;
+  animation: bounce 2s infinite;
+}
+
+/* ============================================================
+   BOTÃO PRIMÁRIO
+============================================================ */
+.btn-primary {
+  display: inline-block;
+  padding: 0.9rem 2.2rem;
+  background: var(--accent);
+  color: #fff;
+  font-family: 'Space Mono', monospace;
+  font-size: 0.85rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  border: none;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+/* Brilho que passa sobre o botão ao hover */
+.btn-primary::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+  transition: left 0.5s;
+}
+
+.btn-primary:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(124, 58, 237, 0.4);
+}
+
+.btn-primary:hover::before {
+  left: 100%; /* o brilho atravessa o botão */
+}
+
+/* ============================================================
+   COLEÇÕES
+============================================================ */
+.colecoes {
+  padding: 6rem 5%;
+  background: var(--bg);
+}
+
+.colecoes-header {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.colecoes-header h2 {
+  font-size: clamp(2rem, 5vw, 3.5rem);
+  font-weight: 800;
+}
+
+.colecoes-header p {
+  color: var(--text-muted);
+  margin-top: 0.5rem;
+  font-family: 'Space Mono', monospace;
+  font-size: 0.85rem;
+  letter-spacing: 0.2em;
+}
+
+.colecoes-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+}
+
+.colecao-card {
+  position: relative;
+  border: 1px solid var(--border);
+  overflow: hidden;
+  cursor: pointer;
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.colecao-card:hover {
+  transform: translateY(-6px);
+  box-shadow: var(--shadow);
+}
+
+.colecao-img {
+  height: 200px;
+  transition: transform 0.4s;
+}
+
+.colecao-card:hover .colecao-img {
+  transform: scale(1.05);
+}
+
+.colecao-card span {
+  display: block;
+  padding: 1rem;
+  font-weight: 700;
+  font-size: 0.9rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  background: var(--bg-card);
+}
+
+/* ============================================================
+   PRODUTOS — layout alternado
+============================================================ */
+.produtos {
+  padding: 6rem 5%;
+  background: var(--bg-card);
+}
+
+.produtos-header {
+  text-align: center;
+  margin-bottom: 5rem;
+}
+
+.produtos-header h2 {
+  font-size: clamp(2rem, 5vw, 3.5rem);
+  font-weight: 800;
+}
+
+.produtos-header p {
+  color: var(--text-muted);
+  margin-top: 0.5rem;
+  font-family: 'Space Mono', monospace;
+  font-size: 0.85rem;
+  letter-spacing: 0.2em;
+}
+
+/* Cada produto é um "artigo" com imagem e texto lado a lado */
+.produto-item {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4rem;
+  align-items: center;
+  margin-bottom: 7rem;
+  max-width: 1100px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Produtos pares (0, 2, 4...) têm imagem à DIREITA */
+/* Produtos ímpares (1, 3, 5...) têm imagem à ESQUERDA (já na ordem do HTML) */
+/* O JS usa data-index para inverter a ordem visual */
+.produto-item[data-index="0"],
+.produto-item[data-index="2"] {
+  /* imagem é a segunda coluna */
+}
+
+.produto-item[data-index="1"],
+.produto-item[data-index="3"] {
+  /* imagem já é a primeira coluna no HTML */
+}
+
+.produto-info {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+}
+
+.produto-tag {
+  display: inline-block;
+  padding: 0.25rem 0.75rem;
+  background: var(--yellow);
+  color: #000;
+  font-family: 'Space Mono', monospace;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  width: fit-content;
+}
+
+.produto-info h3 {
+  font-size: clamp(1.8rem, 3vw, 2.5rem);
+  font-weight: 800;
+  line-height: 1.1;
+}
+
+.produto-desc {
+  color: var(--text-muted);
+  line-height: 1.7;
+  font-size: 1rem;
+}
+
+.produto-preco {
+  display: flex;
+  align-items: baseline;
+  gap: 1rem;
+}
+
+.preco-atual {
+  font-size: 1.8rem;
+  font-weight: 800;
+  color: var(--accent);
+}
+
+.preco-antigo {
+  font-size: 1rem;
+  color: var(--text-muted);
+  text-decoration: line-through;
+}
+
+.produto-imagem {
+  position: relative;
+  overflow: hidden;
+  border: 1px solid var(--border);
+}
+
+/* Borda colorida que aparece ao hover */
+.produto-imagem::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border: 3px solid var(--accent);
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.produto-item:hover .produto-imagem::after {
+  opacity: 1;
+}
+
+.produto-imagem img {
+  width: 100%;
+  height: 420px;
+  transition: transform 0.5s ease;
+}
+
+.produto-item:hover .produto-imagem img {
+  transform: scale(1.04);
+}
+
+/* ============================================================
+   RODAPÉ
+============================================================ */
+.footer {
+  background: #0a0a0a;
+  color: #e0e0e0;
+  border-top: 1px solid #1a1a1a;
+}
+
+.footer-inner {
+  display: grid;
+  grid-template-columns: 1.5fr 1fr 1fr;
+  gap: 3rem;
+  padding: 4rem 5%;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.footer-logo {
+  font-size: 1.8rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  color: #fff;
+  margin-bottom: 0.75rem;
+}
+
+.footer-desc {
+  color: #666;
+  line-height: 1.7;
+  font-size: 0.9rem;
+}
+
+.footer-contato h4,
+.footer-pagamento h4 {
+  font-size: 0.75rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--yellow);
+  margin-bottom: 1.2rem;
+}
+
+.footer-contato ul {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+}
+
+.footer-contato a {
+  color: #aaa;
+  font-size: 0.95rem;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  transition: color 0.2s;
+}
+
+.footer-contato a:hover {
+  color: var(--yellow);
+}
+
+.footer-pagamento p {
+  color: #666;
+  font-size: 0.85rem;
+  line-height: 1.6;
+  margin-bottom: 1rem;
+}
+
+.pagamento-icons {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.pay-badge {
+  padding: 0.3rem 0.7rem;
+  border: 1px solid #333;
+  font-family: 'Space Mono', monospace;
+  font-size: 0.7rem;
+  letter-spacing: 0.1em;
+  color: #888;
+}
+
+.footer-bottom {
+  border-top: 1px solid #1a1a1a;
+  padding: 1.5rem 5%;
+  text-align: center;
+  font-size: 0.8rem;
+  color: #444;
+  font-family: 'Space Mono', monospace;
+}
+
+/* ============================================================
+   RESPONSIVIDADE — media queries
+   Mobile: telas menores que 768px
+============================================================ */
+@media (max-width: 768px) {
+  /* Esconde links do menu desktop */
+  .nav-links { display: none; }
+
+  /* Mostra o botão hambúrguer */
+  .hamburger { display: flex; }
+
+  /* Coleções: 1 coluna no mobile */
+  .colecoes-grid {
+    grid-template-columns: 1fr;
+  }
+
+  /* Produtos: 1 coluna, imagem sempre em cima */
+  .produto-item {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+    margin-bottom: 4rem;
+  }
+
+  /* No mobile, a imagem sempre vem primeiro (order CSS) */
+  .produto-item[data-index="0"] .produto-imagem,
+  .produto-item[data-index="2"] .produto-imagem {
+    order: -1;
+  }
+
+  .produto-imagem img {
+    height: 280px;
+  }
+
+  /* Rodapé: 1 coluna */
+  .footer-inner {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+}
+
+/* Tablet: entre 768px e 1024px */
+@media (max-width: 1024px) and (min-width: 769px) {
+  .colecoes-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .produto-item {
+    gap: 2.5rem;
+  }
 }

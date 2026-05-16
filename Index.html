@@ -1,77 +1,243 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-br" data-theme="auto">
 <head>
-  <meta charset="UTF-8">
-  <title>Minha Loja Premium</title>
-
-  <!-- Fonte moderna -->
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;500;700&display=swap" rel="stylesheet">
-
-  <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CALLBLACK — Moda que Fala</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
 
-<!-- LOGO -->
-<header>
-  <div class="logo">CALLBLACK</div>
-</header>
-
-<!-- BOTÃO MENU -->
-<button class="menu-btn" id="menuBtn">
-  <span></span>
-  <span></span>
-  <span></span>
-</button>
-
-<!-- MENU OVERLAY -->
-<div class="menu-overlay" id="menu">
-  <a href="#">Home</a>
-  <a href="#">Produtos</a>
-  <a href="#">Sobre</a>
-  <a href="#">Contato</a>
-</div>
-
-<!-- VIDEO HERO -->
-<section class="video-hero">
-  <video id="heroVideo" 
-         src="imagens/video-hero.mp4" 
-         autoplay muted 
-         poster="imagens/frame-inicial.jpg"
-         playsinline>
-  </video>
-  <img id="heroImage" 
-       src="imagens/frame-final.jpg" 
-       alt="Ícone final" 
-       class="hero-image">
-  <div class="hero-content">
-    <h1 class="fade-up">Design que vende</h1>
-    <p class="fade-up delay">Sua loja com aparência premium</p>
-  </div>
-</section>
-
-<!-- PRODUTOS -->
-<section class="produtos">
-
-  <div class="card fade-up">
-    <img src="https://via.placeholder.com/300">
-    <h3>Produto 1</h3>
-    <p>R$ 99</p>
+  <!-- ============================================================
+       TELA DE INTRO (aparece antes do site carregar)
+  ============================================================ -->
+  <div id="intro-screen">
+    <div class="intro-logo-wrap">
+      <span class="intro-letter">C</span>
+      <span class="intro-letter">A</span>
+      <span class="intro-letter">L</span>
+      <span class="intro-letter">L</span>
+      <span class="intro-letter">B</span>
+      <span class="intro-letter">L</span>
+      <span class="intro-letter">A</span>
+      <span class="intro-letter">C</span>
+      <span class="intro-letter">K</span>
+    </div>
+    <div class="intro-line"></div>
+    <p class="intro-tagline">Moda que fala por você.</p>
+    <button class="intro-enter-btn" id="enterBtn">ENTRAR</button>
   </div>
 
-  <div class="card fade-up delay">
-    <img src="https://via.placeholder.com/300">
-    <h3>Produto 2</h3>
-    <p>R$ 149</p>
+  <!-- ============================================================
+       NAVBAR (barra de navegação no topo)
+  ============================================================ -->
+  <nav class="navbar" id="navbar">
+    <a class="nav-logo" href="#">CALLBLACK</a>
+
+    <!-- Links do menu (desktop) -->
+    <ul class="nav-links" id="navLinks">
+      <li><a href="#home">Home</a></li>
+      <li><a href="#colecoes">Coleções</a></li>
+      <li><a href="#produtos">Produtos</a></li>
+      <li><a href="#contato">Contato</a></li>
+    </ul>
+
+    <!-- Botão hambúrguer (mobile) -->
+    <button class="hamburger" id="hamburger" aria-label="Abrir menu">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+  </nav>
+
+  <!-- Menu mobile (aparece quando clica no hambúrguer) -->
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="#home"      onclick="closeMobileMenu()">Home</a>
+    <a href="#colecoes"  onclick="closeMobileMenu()">Coleções</a>
+    <a href="#produtos"  onclick="closeMobileMenu()">Produtos</a>
+    <a href="#contato"   onclick="closeMobileMenu()">Contato</a>
   </div>
 
-  <div class="card fade-up delay2">
-    <img src="https://via.placeholder.com/300">
-    <h3>Produto 3</h3>
-    <p>R$ 199</p>
-  </div>
+  <!-- ============================================================
+       HERO (seção principal com vídeo/imagem de fundo)
+  ============================================================ -->
+  <section class="hero" id="home">
+    <!-- O vídeo de fundo. Se não tiver arquivo, o poster (imagem) aparece -->
+    <video
+      class="hero-video"
+      src="imagens/video-hero.mp4"
+      autoplay muted loop playsinline
+      poster="imagens/frame-final.jpg">
+    </video>
+    <!-- Camada escura por cima do vídeo para o texto ficar legível -->
+    <div class="hero-overlay"></div>
 
-</section>
+    <div class="hero-content">
+      <p class="hero-eyebrow reveal">Nova Coleção</p>
+      <h1 class="hero-title reveal">
+        Estilo que<br><span class="accent">define.</span>
+      </h1>
+      <a href="#produtos" class="btn-primary reveal">Ver Produtos</a>
+    </div>
 
-<script src="script.js"></script>
+    <!-- Seta animada para scroll -->
+    <div class="scroll-arrow">↓</div>
+  </section>
+
+  <!-- ============================================================
+       COLEÇÕES (banner rápido com categorias)
+  ============================================================ -->
+  <section class="colecoes" id="colecoes">
+    <div class="colecoes-header reveal">
+      <h2>Coleções</h2>
+      <p>Escolha o seu estilo</p>
+    </div>
+    <div class="colecoes-grid">
+      <div class="colecao-card reveal">
+        <div class="colecao-img" style="background:#111"></div>
+        <span>Streetwear</span>
+      </div>
+      <div class="colecao-card reveal">
+        <div class="colecao-img" style="background:#1a1a2e"></div>
+        <span>Drop Especial</span>
+      </div>
+      <div class="colecao-card reveal">
+        <div class="colecao-img" style="background:#0d0d0d"></div>
+        <span>Verão 2025</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       PRODUTOS (layout alternado: imagem ↔ texto)
+  ============================================================ -->
+  <section class="produtos" id="produtos">
+    <div class="produtos-header reveal">
+      <h2>Produtos</h2>
+      <p>Peças únicas para pessoas únicas</p>
+    </div>
+
+    <!-- Produto 1: imagem à DIREITA, texto à ESQUERDA -->
+    <article class="produto-item reveal" data-index="0">
+      <div class="produto-info">
+        <span class="produto-tag">Novo</span>
+        <h3>Moletom Essencial</h3>
+        <p class="produto-desc">Conforto premium com acabamento artesanal. Tecido 100% algodão orgânico, modelagem unissex.</p>
+        <div class="produto-preco">
+          <span class="preco-atual">R$ 189,90</span>
+          <span class="preco-antigo">R$ 239,90</span>
+        </div>
+        <a href="#contato" class="btn-primary">Comprar</a>
+      </div>
+      <div class="produto-imagem">
+        <img src="https://images.unsplash.com/photo-1620799140408-edc6dcb6d633?w=600&q=80" alt="Moletom Essencial" loading="lazy" />
+      </div>
+    </article>
+
+    <!-- Produto 2: imagem à ESQUERDA, texto à DIREITA -->
+    <article class="produto-item reveal" data-index="1">
+      <div class="produto-imagem">
+        <img src="https://images.unsplash.com/photo-1576566588028-4147f3842f27?w=600&q=80" alt="Camiseta Grafite" loading="lazy" />
+      </div>
+      <div class="produto-info">
+        <span class="produto-tag">Destaque</span>
+        <h3>Camiseta Grafite</h3>
+        <p class="produto-desc">Arte urbana impressa em seda direta. Edição limitada, cada peça é única. Disponível em P, M e G.</p>
+        <div class="produto-preco">
+          <span class="preco-atual">R$ 119,90</span>
+        </div>
+        <a href="#contato" class="btn-primary">Comprar</a>
+      </div>
+    </article>
+
+    <!-- Produto 3: imagem à DIREITA, texto à ESQUERDA -->
+    <article class="produto-item reveal" data-index="2">
+      <div class="produto-info">
+        <span class="produto-tag">Limitado</span>
+        <h3>Jaqueta Shadow</h3>
+        <p class="produto-desc">Design minimalista com detalhes em contraste. Impermeável, leve e versátil para o dia a dia.</p>
+        <div class="produto-preco">
+          <span class="preco-atual">R$ 349,90</span>
+          <span class="preco-antigo">R$ 420,00</span>
+        </div>
+        <a href="#contato" class="btn-primary">Comprar</a>
+      </div>
+      <div class="produto-imagem">
+        <img src="https://images.unsplash.com/photo-1591047139829-d91aecb6caea?w=600&q=80" alt="Jaqueta Shadow" loading="lazy" />
+      </div>
+    </article>
+
+    <!-- Produto 4: imagem à ESQUERDA, texto à DIREITA -->
+    <article class="produto-item reveal" data-index="3">
+      <div class="produto-imagem">
+        <img src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=600&q=80" alt="Tênis Urban" loading="lazy" />
+      </div>
+      <div class="produto-info">
+        <span class="produto-tag">Novo</span>
+        <h3>Tênis Urban</h3>
+        <p class="produto-desc">Solado chunky, couro legítimo e paleta monocromática. Para quem pisa com estilo em qualquer lugar.</p>
+        <div class="produto-preco">
+          <span class="preco-atual">R$ 299,90</span>
+        </div>
+        <a href="#contato" class="btn-primary">Comprar</a>
+      </div>
+    </article>
+  </section>
+
+  <!-- ============================================================
+       RODAPÉ / CONTATO
+  ============================================================ -->
+  <footer class="footer" id="contato">
+    <div class="footer-inner">
+
+      <div class="footer-brand">
+        <p class="footer-logo">CALLBLACK</p>
+        <p class="footer-desc">Moda que fala por você.<br>Peças exclusivas, identidade única.</p>
+      </div>
+
+      <div class="footer-contato">
+        <h4>Contato & Redes</h4>
+        <ul>
+          <li>
+            <!-- WhatsApp: troque pelo número do Mika -->
+            <a href="https://wa.me/5500000000000" target="_blank" rel="noopener">
+              <span class="icon">📱</span> WhatsApp
+            </a>
+          </li>
+          <li>
+            <!-- Instagram: troque pelo @domika -->
+            <a href="https://instagram.com/callblack" target="_blank" rel="noopener">
+              <span class="icon">📸</span> @callblack
+            </a>
+          </li>
+          <li>
+            <!-- E-mail: troque pelo e-mail do Mika -->
+            <a href="mailto:contato@callblack.com">
+              <span class="icon">✉️</span> contato@callblack.com
+            </a>
+          </li>
+        </ul>
+      </div>
+
+      <div class="footer-pagamento">
+        <h4>Pagamentos</h4>
+        <p>Aceitamos Pix, cartão de crédito/débito e boleto via link de pagamento seguro enviado pelo WhatsApp.</p>
+        <div class="pagamento-icons">
+          <span class="pay-badge">PIX</span>
+          <span class="pay-badge">CARTÃO</span>
+          <span class="pay-badge">BOLETO</span>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="footer-bottom">
+      <p>© 2025 CALLBLACK. Todos os direitos reservados.</p>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
 </body>
 </html>
